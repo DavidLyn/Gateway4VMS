@@ -1,0 +1,8 @@
+配置文件：
+config.json
+
+安装express：
+npm install express --save
+
+安装mysql：
+npm install mysql --save

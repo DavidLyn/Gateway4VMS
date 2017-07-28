@@ -1,0 +1,14 @@
+{
+  "dbip":"127.0.0.1",
+  "httpServerPort":"4000",
+  "vmsServerIP":"192.168.103.101",
+  "vmsServerPort":"10003",
+  "retryTimeout":"30000",
+  "serverId":"2102002005000006",
+  "serverIp":"192.168.65.3",
+  "serverLoginName":"admin",
+  "serverPassword":"123456",
+  "dbHost":"192.168.103.101",
+  "dbUser":"root",
+  "dbPassword":"123456"
+}
