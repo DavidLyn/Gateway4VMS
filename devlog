@@ -14,3 +14,7 @@ npm install request --save
 CMU的配置：
 在"服务器管理->其他中心服务器"中添加一条wgu记录,
 注意该记录的设备IP必须与config.json中的"serverIp"一致,而不必与所在服务器的实际ip一致???
+
+================================================================================
+通过git创建clone后，在工作目录运行下述命令可以安装依赖包(下述方法可以加快下载速度):
+npm install --registry=http://registry.npm.taobao.org
