@@ -9,3 +9,8 @@ npm install mysql --save
 
 安装request：
 npm install request --save
+
+================================================================================
+CMU的配置：
+在"服务器管理->其他中心服务器"中添加一条wgu记录,
+注意该记录的设备IP必须与config.json中的"serverIp"一致,而不必与所在服务器的实际ip一致???
