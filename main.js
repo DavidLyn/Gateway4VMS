@@ -2,6 +2,7 @@ var fs = require('fs');
 var http = require('http');
 var net = require('net');
 var crypto = require('crypto');
+var request = require('request');
 var xml2js = require('xml2js');              // 将xml解析为js对象
 var iconv = require('iconv-lite');           // 解决汉字乱码问题
 var express = require('express');            // express
@@ -53,6 +54,14 @@ if (config.dbUser != undefined)
 var dbPassword = '123456';                    // 数据库用户口令
 if (config.dbPassword != undefined)
     dbPassword = config.dbPassword;
+
+var outerHttpServerIP = 'http://127.0.0.1';          // 外部系统IP,本结点发送告警等信息的目的地
+if (config.outerHttpServerIP != undefined)
+    outerHttpServerIP = config.outerHttpServerIP;
+
+var outerHttpServerPort = 4000;                  // 外部系统port,本结点发送告警等信息的目的地
+if (config.outerHttpServerPort != undefined)
+    outerHttpServerPort = config.outerHttpServerPort;
 
 // global arguments --------------------------------------------------------------------
 var connectionToVMS;                          // 与CMU的Tcp长连接对象
@@ -304,10 +313,48 @@ function selectFromDb(req,res,sql) {
 
                                     break;
                                 default:
-                                    console.log('error response command : ', result.response.$.command);
+                                    console.log('ERROR : invalid response command : ', result.response.$.command);
                             }
                         } else if (result.request !== undefined) {
-                            // To-Do
+                            //console.log('INFO : This is a response package:',result);
+                            switch (result.request.$.command) {
+                                case 'RaiseAlarm':
+                                    var sendObj = {
+                                        alarmId : result.request.parameters.alarmCode,
+                                        cameraId : result.request.parameters.alarmSourceId.substr(0,16),
+                                        alarmType : result.request.parameters.alarmSourceId.substr(16),
+                                        timeStamp : result.request.parameters.timeStamp,
+                                        eliminated : result.request.parameters.eliminated
+                                    };
+                                    console.log('INFO : send object : ', sendObj);
+
+                                    var options = {
+                                        headers: {'Connection': 'close'},
+                                        url: outerHttpServerIP+':'+outerHttpServerPort+'/alarms',
+                                        method: 'POST',
+                                        json:true,
+                                        body:sendObj
+                                    };
+
+                                    function callback(error, response, data) {
+                                        if (error) {
+                                            console.log('ERROR : ',error);
+                                            return;
+                                        }
+
+                                        if (response.statusCode == 200) {
+                                            console.log('INFO : ',data);
+                                        } else {
+                                            console.log('ERROR : ',data);
+                                        }
+                                    }
+
+                                    request(options, callback);
+
+                                    break;
+                                default:
+                                    console.log('ERROR : invalid request command : ', result.request.$.command);
+                            }
                         } else {
                             console.log('ERROR : The package is neither request nor reponse!');
                         }
@@ -380,8 +427,14 @@ app.get('/vms/statuses',function (req,res) {
     selectFromDb(req,res,'select camera_device_id as cameraId,is_online as status from camera');
 });
 
+//--------------------------------------------------------------------------------------------
+// 以下是作为测试用
 app.get('/vms/test',function (req,res) {
     sendGetCamerasRequestToVMS(req,res);
+});
+
+app.post('/alarms',function (req,res) {
+    writeResponseInDetail(res,200,{'Content-Type':'text/plain;charset=utf-8'},'Got Alarms!');
 });
 
 app.listen(httpServerPort);

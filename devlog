@@ -6,3 +6,6 @@ npm install express --save
 
 安装mysql：
 npm install mysql --save
+
+安装request：
+npm install request --save

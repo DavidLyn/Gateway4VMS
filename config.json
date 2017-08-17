@@ -1,5 +1,4 @@
 {
-  "dbip":"127.0.0.1",
   "httpServerPort":"4000",
   "vmsServerIP":"192.168.103.101",
   "vmsServerPort":"10003",
@@ -10,5 +9,7 @@
   "serverPassword":"123456",
   "dbHost":"192.168.103.101",
   "dbUser":"root",
-  "dbPassword":"123456"
+  "dbPassword":"123456",
+  "outerHttpServerIP":"http://127.0.0.1",
+  "outerHttpServerPort":"4000"
 }
