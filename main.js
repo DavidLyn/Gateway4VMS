@@ -113,6 +113,7 @@ function getRequestFromList(seq) {
 }
 
 function writeResponseInDetail(res,statusCode,contentType,message) {
+    res.header("Access-Control-Allow-Origin", "*");
     res.writeHead(statusCode,contentType);
     res.write(message);
     res.end();
