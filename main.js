@@ -113,7 +113,11 @@ function getRequestFromList(seq) {
 }
 
 function writeResponseInDetail(res,statusCode,contentType,message) {
-    res.header("Access-Control-Allow-Origin", "*");
+    // // 跨域访问的问题
+    // res.header("Access-Control-Allow-Origin", "*");
+    // res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    // res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+    // res.header("X-Powered-By",' 3.2.1');
     res.writeHead(statusCode,contentType);
     res.write(message);
     res.end();
@@ -407,6 +411,12 @@ app.use(function(req,res,next){
     console.log('req.body=',req.body);
     console.log('req.params=',req.params);
     console.log('req.query=',req.query);
+
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+    res.header("X-Powered-By",' 3.2.1');
+
     next();
 });
 
