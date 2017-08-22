@@ -335,7 +335,7 @@ function selectFromDb(req,res,sql) {
 
                                     var options = {
                                         headers: {'Connection': 'close'},
-                                        url: outerHttpServerIP+':'+outerHttpServerPort+'/alarms',
+                                        url: outerHttpServerIP+':'+outerHttpServerPort+'/AIMR/alarmMsg',
                                         method: 'POST',
                                         json:true,
                                         body:sendObj

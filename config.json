@@ -10,6 +10,6 @@
   "dbHost":"192.168.103.101",
   "dbUser":"root",
   "dbPassword":"123456",
-  "outerHttpServerIP":"http://127.0.0.1",
-  "outerHttpServerPort":"4000"
+  "outerHttpServerIP":"http://192.168.26.50",
+  "outerHttpServerPort":"8080"
 }
